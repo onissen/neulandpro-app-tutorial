@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
             MaterialTheme(
                 colors = if (isSystemInDarkTheme()) DarkColors else LightColors
             ) {
-                systemUiController.setStatusBarColor(MaterialTheme.colors.primary)
+                systemUiController.setStatusBarColor(MaterialTheme.colors.secondary)
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     LazyColumn {
@@ -72,9 +72,10 @@ class MainActivity : ComponentActivity() {
                             chatBubbleList.add(newBubble)
                             textInput.value = ""
                         },
-                            modifier = Modifier.padding(start = 16.dp)
+                            modifier = Modifier.padding(start = 16.dp),
+                            backgroundColor = MaterialTheme.colors.primary
                         ) {
-                            Icon(imageVector = Icons.Filled.Send, contentDescription = "Senden")
+                            Icon(imageVector = Icons.Filled.Send, contentDescription = "Senden" )
                         } // Button
                     } // Row
                 } // Box
@@ -87,7 +88,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun ChatBubble(chatBubbleData: ChatBubbleData) {
         Surface(
-            color = if (chatBubbleData.isSender) MaterialTheme.colors.surface else MaterialTheme.colors.primary,
+            color = if (chatBubbleData.isSender) MaterialTheme.colors.secondary else MaterialTheme.colors.surface,
             shape = if (chatBubbleData.isSender) senderShape() else receiverShape(),
             elevation = 8.dp,
             modifier = Modifier
@@ -117,8 +118,8 @@ class MainActivity : ComponentActivity() {
 
 fun receiverShape(): RoundedCornerShape {
     return RoundedCornerShape(
-        topStart = 8.dp,
-        topEnd = 0.dp,
+        topStart = 0.dp,
+        topEnd = 8.dp,
         bottomStart = 8.dp,
         bottomEnd = 8.dp
     )
@@ -126,8 +127,8 @@ fun receiverShape(): RoundedCornerShape {
 
 fun senderShape(): RoundedCornerShape {
     return RoundedCornerShape(
-        topStart = 0.dp,
-        topEnd = 8.dp,
+        topStart = 8.dp,
+        topEnd = 0.dp,
         bottomStart = 8.dp,
         bottomEnd = 8.dp
     )
