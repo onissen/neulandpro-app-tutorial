@@ -43,15 +43,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             val chatBubbleList = remember { mutableStateListOf(question, answer)}
             val textInput = remember { mutableStateOf("") }
+            var darkModeEnabled = false
             val systemUiController = rememberSystemUiController()
 
             MaterialTheme(
-                colors = if (isSystemInDarkTheme()) DarkColors else LightColors
+                colors = if (darkModeEnabled) DarkColors else LightColors
             ) {
-                systemUiController.setStatusBarColor(MaterialTheme.colors.secondary)
+                systemUiController.setStatusBarColor(MaterialTheme.colors.primary)
 
                 Box(modifier = Modifier.fillMaxSize()) {
-                    LazyColumn {
+                    Button(
+                        onClick = {if (darkModeEnabled) darkModeEnabled = false else darkModeEnabled}
+                    ) {
+                        if (darkModeEnabled) Text(text = "LightMode") else Text(text = "DarkMode")
+                    }
+                    
+                    LazyColumn (modifier = Modifier.padding(top = 20.dp)){
                         items(chatBubbleList) {
                             ChatBubble(chatBubbleData = it)
                         }
