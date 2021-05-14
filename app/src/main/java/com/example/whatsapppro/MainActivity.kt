@@ -3,6 +3,7 @@ package com.example.whatsapppro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,7 +53,9 @@ class MainActivity : ComponentActivity() {
             ) {
                 systemUiController.setStatusBarColor(MaterialTheme.colors.primary)
 
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier
+                    .background(color = MaterialTheme.colors.background)
+                    .fillMaxSize()) {
                     Button(
                         onClick = {darkModeEnabled.value = !darkModeEnabled.value},
                         modifier = Modifier
