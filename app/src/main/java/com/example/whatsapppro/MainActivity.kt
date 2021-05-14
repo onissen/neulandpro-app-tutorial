@@ -3,6 +3,7 @@ package com.example.whatsapppro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -41,17 +42,30 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
+            val systemUiController = rememberSystemUiController()
             val chatBubbleList = remember { mutableStateListOf(question, answer)}
             val textInput = remember { mutableStateOf("") }
-            val systemUiController = rememberSystemUiController()
+            val darkModeEnabled = remember { mutableStateOf(false)}
+
 
             MaterialTheme(
-                colors = if (isSystemInDarkTheme()) DarkColors else LightColors
+                colors = if (darkModeEnabled.value) DarkColors else LightColors
             ) {
-                systemUiController.setStatusBarColor(MaterialTheme.colors.secondary)
+                systemUiController.setStatusBarColor(MaterialTheme.colors.primary)
 
-                Box(modifier = Modifier.fillMaxSize()) {
-                    LazyColumn {
+                Box(modifier = Modifier
+                    .background(color = MaterialTheme.colors.background)
+                    .fillMaxSize()) {
+                    Button(
+                        onClick = {darkModeEnabled.value = !darkModeEnabled.value},
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(all = 5.dp)
+                    ) {
+                        if (darkModeEnabled.value) Text(text = "LightMode") else Text(text = "DarkMode")
+                    }
+                    
+                    LazyColumn (modifier = Modifier.padding(top = 35.dp)){
                         items(chatBubbleList) {
                             ChatBubble(chatBubbleData = it)
                         }
